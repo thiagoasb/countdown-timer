@@ -22,10 +22,12 @@ class MainActivity : AppCompatActivity() {
         object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 binding.tvTimer.text = (millisUntilFinished / 1000).toString()
+                binding.btnStart.isEnabled = false
             }
 
             override fun onFinish() {
                 binding.tvTimer.text = getString(R.string.finished)
+                binding.btnStart.isEnabled = true
             }
 
         }.start()

@@ -1,9 +1,8 @@
 package com.thiagoaraujo.countdowntimer
 
 import android.content.Context
+import android.os.*
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -44,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             override fun onFinish() {
                 binding.tvTimer.text = getString(R.string.finished)
                 binding.btnStart.isEnabled = true
+                vibratePhone(this@MainActivity)
             }
 
         }.start()
@@ -53,5 +53,15 @@ class MainActivity : AppCompatActivity() {
         return binding.editTextLabel.text.isNotEmpty()
                 &&  !binding.editTextLabel.text.toString().startsWith("0")
     }
+
+    private fun vibratePhone(context: Context) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            (context.getSystemService(VIBRATOR_SERVICE) as Vibrator)
+                .vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            (context.getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(500)
+        }
+    }
+
 
 }
